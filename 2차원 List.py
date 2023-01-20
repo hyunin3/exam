@@ -1,17 +1,15 @@
 lst=[[1],[2,3],[4,5,6],[7,8,9,10]]
 
-#lst[0]=[1], lst[1]=[2,3], lst[2]=[7,8,9,10] 
-#print(lst[0][0]+lst[1][0])
-#def all_list_sum(lst):
-lst_a = *lst    
-리스트 안에 리스트 
-lst =[]
-def all_list_sum(lst):
-    result=0
-    for in ist
-    print(sum_list)
-    
-     for num in sum_lst:
-         result+ result+num
-    return result
-all_list     
+def list_sum(list_a):
+    sum = 0
+    for sub_lst in list_a:
+        #print(sub_lst)
+        for num in sub_lst:
+            sum = sum + num
+        
+    return sum
+
+print(list_sum(lst))
+
+#lst[0]=[1], lst[1]=[2,3], lst[2]=[4,5,6]   
+#리스트 안에 리스트 

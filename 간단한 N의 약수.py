@@ -1,12 +1,18 @@
-num=int(input())
-for i in range(1,num+1):
+num = int(input())
+for i in range(1, num + 1 ):
     
-    if num % i ==0:
-        print(i)
+    if num % i == 0:
+        print(i, end=' ')
     else: 
         pass
+        
 
+# n = input()
+# n = int(n)
 
+# for i in range(1, n+1):
+#     if n % i == 0:
+#         print(i, end=" ")        
 
 # n=input
 # print(n) 
@@ -19,4 +25,4 @@ for i in range(1,num+1):
 #      if num % i ==0:
 #         print(i)
 # i는 1이 들어가고 실행, 2가 들어가고 실행 ....      
-# ㅔ갸ㅜㅅ(i, end = '')으로 가로 출력가능
+# print(i, end = '')으로 가로 출력가능
