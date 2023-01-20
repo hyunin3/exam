@@ -7,7 +7,7 @@ def is_id_valid(user_data):
     else:
         return False        
 
-
+#print(user_data)
 
 # # 아래의 코드는 수정하지 않습니다.
 if __name__ == '__main__':

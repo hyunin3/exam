@@ -15,3 +15,15 @@ print(list_sum(list_a))
 # for i in numbers:
 #     result=result+i
 # print(result)  
+
+# def list_sum():
+#     result = 0
+#     print(list_a)
+#     for num in list_a:
+#         result + num 하고 싶은데 이걸 새로 result에 넣어줘야 재활용가능
+#         result=result + num
+#     return result
+
+
+print(list_sum(list_a))
+    
