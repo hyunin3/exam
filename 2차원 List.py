@@ -4,8 +4,8 @@ def list_sum(list_a):
     sum = 0
     for sub_lst in list_a:
         #print(sub_lst)
-        for num in sub_lst:
-            sum = sum + num
+        for i in sub_lst:
+            sum = sum + i
         
     return sum
 

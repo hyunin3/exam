@@ -1,10 +1,9 @@
 #전체 점수 중 60점 이상인 과목의 개수를 계산하는 함수 over를 완성하시오
-def over(scores):
+def over(lst):
     cnt = 0
-    
-    for score in scores:
+    for score in lst:
         if score >= 60:
-            cnt = cnt+1
+            cnt = cnt + 1
     
     return cnt        
 
