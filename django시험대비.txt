@@ -1,0 +1,37 @@
+<장고 디버깅 시험대비>
+자주 나오는 오류별로 대략 어떻게 고치는지.
+보통 뭘 틀리게 바꿔서 문제 내는지. 예시문제들 보니까 경로를 꼬고 
+여러줄 지우고 통째로 다시 만들어봐라 이런건 잘 없음.
+보통 나오는게 s붙었는지 @붙었는지 탭으로 앞으로 당겨야되는지
+html주소 양식 제대로 적었는지 이런거.  
+article.pk있는지 없는지, CSRF는 있는지
+앱에 인스톨되어있는지, 경로 지정되어있는지, AUTH_USER있는지, __init__.py있는지
+주석처리로 범위지정해가면서 혹은 print(1)찍어보면서 어느 범위에서 잘못되었는지 찾아보기
+
+html에서 url 받을때 index말고는 article.pk 필요함
+
+<실습문제>
+1. render 뒤에 'articles/index.html'
+
+2. return이 없음. 문제에선 create누르면 인덱스로 간다고 했지만
+보통 detail로 가도록 많이 만들었음. 인덱스로 가게 하려면
+detail -> index
+
+3. @require_safe 없애면 적상적으로 작동
+
+4. {{ article.title }}, {{ article.content }}로 수정 (s빠짐)
+
+<실습문제2>
+1. request.FILES추가 article.pk 추가
+2. ArticleForm()에 instance=article 추가
+3. CSRF추가
+
+<예시문제>
+1. context 를 탭으로 한 칸 앞으로 당겨야 return 받을 수 있음
+
+서술형 예상
+
+1. 쿠키 세션
+2. 클라이언트-서버 구조
+3. MTV MVC
+4. ORM
