@@ -166,3 +166,46 @@ FK 외래키. 관계형 데이터베이스에서 다른 테이블의 행을 식�
 키를 사용해 부모 테이블의 유일한 값 참조(참조 무결성) 외래키가 반드시 부모 테이블의
 기본키는 아니어도 되지만 유일한 값이어야함.
 
+######
+
+Django Relationship fields
+
+Foreignkey
+N:1담당하는 장고의 모델 필드 클래스. 외래키 속성을 담당.
+2개의 필수 인자 필요. 참조하는 model class와 on_delete 옵션
+
+on_delete 데이터 무결성을 위해 필요. 외래키가 참조하는 객체가 사라졌을 때 어떻게 할지.
+CASCADE: 부모객체(참조된 객체)가 삭제되면 이를 참조하는 객체도 삭제.
+
+
+Related manager
+N:1이나 M:N관계에서 사용 가능한 문맥. 역참조 시 사용할 수 있는 manager생성.
+objects써서 queryset api 사용했던 것처럼 related manager를 통해 queryset api 
+사용할 수 있게 함.
+
+역참조: 나를 참조하는 테이블(나를 외래키로 지정한)을 참조하는 것.
+N:1에서는 1이 N을 참조하는 상황이므로 외래키를 가지지 않은 1이 외래키를 가진 
+N을 참조. 
+
+
+#####
+article.comment_set.method() 
+Article모델이 Comment 모델을 참조(역참조)할 때 사용하는 매니저.
+article.comment 형식으로는 댓글 객체 참조 못함. Article 클래스엔 Comment와의
+관계 작성되어 있지 않음. 대신 역참조 할 수 있는 comment_set 매니저를 자동으로
+생성하여 article.comment_set 형태로 댓글 객체 참조 가능.
+
+참조 상황인 Comment -> Article에서는 comment.article형태 작성 가능.
+
+related_name은 Foreignkey 클래스의 선택 옵션으로 역참조 시 사용하는 매니저 이름을
+변경 가능. article.comment_set 대신 article.comments 사용.
+
+save(commit=False) 아직 데이터베이스에 저장되지 않은 인스턴스를 반환. 
+저장 전 객체에 대한 사용자 지정 처리 수행에 유용.
+
+댓글 개수 출력
+{{ comments | length }} {{ comments.count }}
+댓글이 없는 경우 
+for empty 활용
+
+#####
