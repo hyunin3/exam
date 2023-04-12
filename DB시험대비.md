@@ -48,5 +48,96 @@ SELECT 특정 테이블에서 데이터를 조회하기 위해 사용. FROM으�
 SELECT * FROM users;(테이블명) users에 있는 모든 컬럼 조회
 SELECT first_name, age FROM users;
 
-ORDER BY절은 FROM 뒤에 위치. ASC, DESC를 통해 정렬가능.
+ORDER BY절은 FROM 절 뒤에 위치. ASC, DESC를 통해 정렬가능.
 SELECT first_name, age FROM users ORDER BY age;
+
+SELECT DISTINCT 중복제거
+
+WHERE 절은 FROM 절 뒤에 위치.
+SELECT first_name, age, balance FROM users
+WHERE age >= 30 AND balance > 500000;
+
+LIKE 절은  WHERE 뒤에
+SELECT first_name, phone FROM users
+WHERE phone LIKE '%-51__-%';
+
+SELECT first_name, country FROM users
+WHERE country IN ('경기도', '강원도');
+
+BETWEEN, OR, NOT IN
+
+LIMIT 10 OFFSET 10
+
+
+#####
+집계함수: COUNT()외에는 컬럼이 int일 때 사용가능. AVG(), COUNT(), MAX(), MIN(), SUM()
+SELECT avg(balance) FROM users;
+
+GROUP BY: FROM, WHERE 뒤에 작성. 
+SELECT country, avg(balance) FROM users
+GROUP BY country ORDER BY avg(balance) DESC;
+
+#####
+Changing data
+
+INSERT INTO 새 행을 테이블에 삽입
+
+INSERT INTO classmates(name, age, address)
+VALUES('홍길동', 23, '서울')
+
+INSERT INTO classmates
+VALUES
+ ('김철수', 20, '경기')
+ ('이영미', 23, '경기')
+
+UPDATE 업데이트할 테이블 지정하고 SET절에서 테이블 각 컬럼에 대해 새 값을 설정하고
+WHERE 절 조건 사용해서 업데이트할 행 지정(선택사항). 
+
+UPDATE classmates
+SET name='이태형'
+  address='제주도'
+WHERE rowid=2;
+
+DELETE 테이블에서 행을 제거. WHERE 생략하면 모든 행 삭제. ORDER BY나 LIMIT절로 삭제할 
+행 수 지정 가능.
+
+DELETE FROM classmates WHERE name LIKE '%영%';
+
+
+#####
+정규형
+테이블은 유지 보수를 용이하게 하고 데이터의 무결성을 지키기 위해 나눔. 중복을 최소화하고
+일관성과 무결성 보장하기 위해 구조화.
+
+제1 정규형
+하나의 속성값이 복수형을 가지면 안된다. 하나의 속성값엔 값이 하나만 들어가야함.
+(ex) 등록완료 박민서 수영, 필라테스 -->이런거 안된다.
+
+제2 정규형
+테이블의 기본키에 종속되지 않는 컬럼은 테이블 분리해야함. 관련없는 애들 따로 분리.
+FK를 사용. 
+(ex) 기존 테이블에서 운동은 FK로 하고 다른 테이블에 운동 명과 금액 분리시킴.
+
+
+제3 정규형
+다른 속성에 의존하는 속성은 따로 분리할 것.
+(ex) 운동 명과 나이 분리 
+
+#####
+JOIN 테이블 합치기. 
+CROSS JOIN 그냥 다 합치는거. 모든 조합 출력
+
+
+
+INNER JOIN 두 테이블에서 일치하는 데이터만 결과 출력
+
+SELECT * FROM articles, users
+WHERE articles.userid=user.rowid;
+
+SELECT * FROM articles INNER JOIN users
+ON userid=users.rowid;
+
+
+LEFT JOIN 왼쪽 테이블의 데이터를 기준으로 오른쪽 데이터 결합. 없으면 NULL
+RTGHT JOIN
+FULL OUTER JOIN
