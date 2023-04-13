@@ -21,21 +21,18 @@ DBMS: DB를 조작하는 프로그램
 SQL: 관계형 데이터베이스 관리 + CRUD하는 언어
 
 ######
-DDL: 데이터 정의 언어. 구조를 정의하기 위한 명령어. 테이블, 스키마를 생성, 수정, 삭제
+SQL commands
+
+1. DDL: 데이터 정의 언어. 구조를 정의하기 위한 명령어. 테이블, 스키마를 생성, 수정, 삭제
 CREATE, DROP, ALTER
-
-data types: NULL, INTEGER, REAL, TEXT, BLOB
-타입 선호도가 있어서 호환성 상승
-
-데이터 무결성: DB내 정확성, 일관성 보장 위해 변경시 제한을 두는 것
-NOT NULL, UNIQUE, PRIMARY KEY, AUTOINCREMENT
-
-rowid: 암시적 자동증가 컬럼, 테이블의 행 고유하게 식별. 1부터 시작.
-데이터 삽입시 명시적 지정 없으면 다음 순서 할당. 별칭 rowid가능
 
 CREATE TABLE 새 테이블 생성
 
 ALTER TABLE: Rename a table(RENAME TO), Rename a column(RENAME COLUMN), Add a new column to a table(ADD COLUMN), Delete a column(DROP COLUMN)
+
+ALTER TABLE ADD COLUMN에서 만약 테이블에 기존 데이터 있는데 새로 추가할 경우 NULL이
+기존 데이터에 추가되어야 하는데 NOT NULL조건 있으면 에러나기 때문에 DEFAULT제약조건
+줘야함.
 
 컬럼삭제 못하는 경우: 컬럼이 다른 부분에서 참조되는 경우, PK인 경우, 유니크 제약조건인 경우
 
@@ -43,7 +40,7 @@ DROP TABLE: DB에서 테이블 제거. 존재하지 않는 테이블 제거시 �
 
 ######
 
-DML: 데이터 조작 언어. 데이터를 조작하기 위한 명령어. 추가, 조회, 변경, 삭제
+2. DML: 데이터 조작 언어. 데이터를 조작하기 위한 명령어. 추가, 조회, 변경, 삭제
 INSERT, SELECT, UPDATE, DELETE
 
 SELECT 특정 테이블에서 데이터를 조회하기 위해 사용. FROM으로 데이터 가져올 테이블 지정
@@ -69,6 +66,40 @@ WHERE country IN ('경기도', '강원도');
 BETWEEN, OR, NOT IN
 
 LIMIT 10 OFFSET 10
+
+
+3. SQL syntax 
+SELECT, INSERT, UPDATE 등과 같은 키워드로 시작하고 ;으로 끝남. 대소문자 구분하지
+않지만 대문자 권장. 
+
+######
+Data types: NULL, INTEGER, REAL, TEXT, BLOB
+타입 선호도가 있어서 호환성 상승. 다른 데이터 타입 선언하면 5가지 선호도로 인식됨.
+NULL 정보가 없거나 알 수 없음
+INTEGER 정수. 크기에 따라 가변 크기를 가짐
+REAL 실수. 부동 소수점 사용하는 10진수 값이 있는 실수
+TEXT 문자 데이터
+BLOB 입력된 그대로 저장된 데이터 덩어리. 이미지 데이터 등
+
+######
+Constraints 제약조건
+
+데이터 무결성: DB내 정확성, 일관성 보장 위해 변경 시 제한을 두는 것
+NOT NULL: 컬럼이 NULL값 허용하지 않도록. 명시적으로 지정하지 않는한은 NULL값 허용
+UNIQUE: 컬럼의 모든 값이 서로 구별되거나 고유한 값이 되도록
+PRIMARY KEY: 테이블에서 행의 고유성 식별에 사용. 각 테이블엔 하나의 기본 키만 있음.
+암시적으로 NOT NULL 제약조건 포함.
+AUTOINCREMENT: id컬럼에 기본적으로 사용하는 제약조건. 사용되지 않은 값이나 이전에
+삭제된 행의 값 재사용 방지. 해당 rowid재사용 못하게 함.
+
+rowid: 암시적 자동증가 컬럼, 테이블의 행 고유하게 식별. 1부터 시작.
+데이터 삽입시 명시적 지정 없으면 다음 순서 할당. 별칭 rowid가능
+
+
+
+
+
+
 
 
 #####
@@ -287,3 +318,26 @@ N:1이나 M:N관계에서 사용가능한 문맥.
 같은 이름의 메서드여도 관계에 따라 다르게 동작.
 add, remove... 등
 
+#####
+LIKE
+모델 관계 설정
+article.user 게시글을 작성한 유저 N:1
+
+user.article_set 유저가 작성한 게시글(역참조) N:1
+
+article.like_users 게시글을 좋아요한 유저 M:N
+
+user.like_articles 유저가 좋아요한 게시글(역참조) M:N
+
+.exists() 쿼리셋에 결과가 포함되어 있으면 True반환하고 그렇지 않으면 False반환
+
+@require_POST
+if request.user.is_authenticated:
+추가
+
+######
+get_object_or_404 가져오던가 없으면 404줘
+article = get_object_or_404(Article, pk=pk)
+article = Article.object.get(pk=pk)
+정상적인 상황에선 같은 기능
+######
