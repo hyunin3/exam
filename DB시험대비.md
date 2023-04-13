@@ -364,7 +364,7 @@ CREATE
 
 READ
 
-all() 전체 데이터 조회 Atricle.objects.all()
+all() 전체 데이터 조회 Article.objects.all()
 
 get() 단일 데이터 조회, 고유성 보장하는 조회에서 사용하지 않으면 에러
 Article.objects.get(pk=1)
