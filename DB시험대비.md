@@ -96,12 +96,6 @@ rowid: 암시적 자동증가 컬럼, 테이블의 행 고유하게 식별. 1부
 데이터 삽입시 명시적 지정 없으면 다음 순서 할당. 별칭 rowid가능
 
 
-
-
-
-
-
-
 #####
 집계함수: COUNT()외에는 컬럼이 int일 때 사용가능. AVG(), COUNT(), MAX(), MIN(), SUM()
 SELECT avg(balance) FROM users;
@@ -341,3 +335,59 @@ article = get_object_or_404(Article, pk=pk)
 article = Article.object.get(pk=pk)
 정상적인 상황에선 같은 기능
 ######
+ORM: SQL사용하지 않고 데이터베이스 조작할 수 있게 만들어주는 매개체
+shell이나 shell_plus 사용
+
+쿼리셋 API의 CRUD
+
+CREATE
+
+1. 첫번째 방법 다음의 단계를 거친다 
+   article = Article() 클래스를 통한 인스턴스 생성
+   Article(class)로 부터 article(instance)
+
+   article.title 클래스 변수명과 같은 이름의 인스턴스 변수를 생성 후 값 할당
+  article.title = 'first' 인스턴스 변수(title)에 값을 할당
+  article.content = 'django!' 인스턴스 변수(content)에 값을 할당
+
+  article.save() 인스턴스로 save 메서드 호출
+  save 메서드 호출해야 DB에 값이 저장됨. 그래야 Article.objects.all()로 호출 가능
+  article.title 하면 'first' 나옴
+
+2. 두번째 방법 인스턴스 생성 시 초기 값을 함께 작성하여 생성
+  article = Article(title='second', content='django!')
+  이것도 article.save()해줘야 저장됨.
+
+3. 세번째 방법 
+   Article.objects.create(title='third', content='django!') 
+   생성된 데이터 바로 반환됨
+
+READ
+
+all() 전체 데이터 조회 Atricle.objects.all()
+
+get() 단일 데이터 조회, 고유성 보장하는 조회에서 사용하지 않으면 에러
+Article.objects.get(pk=1)
+Article.objects.get(content='django!')
+
+filter() 지정된 조회 매개 변수와 일치하는 객체를 포함하는 새 쿼리셋을 반환 
+조회된 객체가 없거나 1개여도 쿼리셋 반환
+Article.objects.filter(content='django!)
+
+Field lookups 특정 레코드에 대한 조건을 설정하는 방법 
+메서드 filter(), exclude(), get()에 대한 키워드 인자로 지정됨.
+Article.objects.filter(content__contains='dj')
+content 컬럼에 'dj'가 포함된 모든 데이터 조회
+
+UPDATE
+
+수정하고자 하는 인스턴스 객체 조회하고 새로운 값 할당한 뒤 저장
+article = Article.objects.get(pk=1)
+article.title = 'byebye'
+article.save()
+
+DELETE
+
+조회 후 삭제
+article = Article.objects.get(pk=1)
+article.delete()
