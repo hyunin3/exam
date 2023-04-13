@@ -1,11 +1,11 @@
 ######
-관계형DB (RDB): 표로 정리된 DB. 일반적으로 메인으로 많이 사용되고 있음. 
+1. 관계형DB (RDB): 표로 정리된 DB. 일반적으로 메인으로 많이 사용되고 있음. 
 형식이 정해져 있고 관계에 대해 표현을 해야함. 수정이 어렵고 테이블 형식이라
 유연성이 없고 확장도 힘듦. 대부분의 관계형에서 SQL을 이용해 조작 가능.
 자료를 테이블로 나누어 관리, 테이블 간 간계 설정. 데이터 무결성 유지에 장점.
 외래키를 사용하여 각 행에서 서로 다른 테이블 간 관계 만드는데 사용 가능.
 
-비관계형 DB: 관계형의 한계를 극복하기 위해 조금 더 유연하게 만든 DB. 빠른 처리나 확장이
+2. 비관계형 DB: 관계형의 한계를 극복하기 위해 조금 더 유연하게 만든 DB. 빠른 처리나 확장이
 필요할 때 서브로 사용함. NoSQL
 
 스키마: 청사진. 테이블의 구조, 데이터 베이스에서 자료구조, 관계, 표현 방법 등 명세 기술한 것
@@ -111,17 +111,17 @@ DELETE FROM classmates WHERE name LIKE '%영%';
 테이블은 유지 보수를 용이하게 하고 데이터의 무결성을 지키기 위해 나눔. 중복을 최소화하고
 일관성과 무결성 보장하기 위해 구조화.
 
-제1 정규형
+1. 제1 정규형
 하나의 속성값이 복수형을 가지면 안된다. 하나의 속성값엔 값이 하나만 들어가야함.
 (ex) 등록완료 박민서 수영, 필라테스 -->이런거 안된다.
 
-제2 정규형
+2. 제2 정규형
 테이블의 기본키에 종속되지 않는 컬럼은 테이블 분리해야함. 관련없는 애들 따로 분리.
 FK를 사용. 
 (ex) 기존 테이블에서 운동은 FK로 하고 다른 테이블에 운동 명과 금액 분리시킴.
 
 
-제3 정규형
+3. 제3 정규형
 다른 속성에 의존하는 속성은 따로 분리할 것.
 (ex) 운동 명과 나이 분리 
 
@@ -209,3 +209,81 @@ save(commit=False) 아직 데이터베이스에 저장되지 않은 인스턴스
 for empty 활용
 
 #####
+Django에서 User모델을 참조하는 방법
+
+1. settings.AUTH_USER_MODEL
+  반환값: 'accounts.User'
+  User모델에 대한 외래키 또는 M:N관계 정의할 때 사용. 
+  models.py의 모델 필드에서 User모델 참조할 때 사용
+
+2. get_user_model()
+  반환값: User Object(객체)
+  models.py가 아닌 다른 모든 곳에서 유저 모델 참조할 때 사용
+
+######
+CREATE 
+
+외래키 데이터 누락(NOT NULL...에러)
+artile = form.save(commit=False) 작성해줘야 함  --> articles/views.py
+
+DELETE 
+
+게시글 삭제 시 본인 확인(본인만 삭제 가능하도록)
+if request.user == article.user: 추가  --> articles/views.py
+
+UPDATE
+
+게시글 수정 시 본인 확인(본인만 수정 가능하도록)
+if request.user == article.user: 추가  --> articles/views.py
+{ % if request.user == article.user % } --> articles/detail.html
+
+READ
+
+<p>작성자: {{ article.user }}</p> --> index, detail템플릿
+
+######
+Comment와 User 간 모델 관계 설정
+Comment모델에 User모델 참조하는 외래 키 작성
+user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
+
+인증된 사용자인 경우 외 접근 제한
+@require_POST
+if request.user.is_authenticated:
+{ % if request.user.is_authenticated % }
+
+######
+
+M:N관계
+병원에서 의사와 환자의 관계
+target model 관계 필드를 가지지 않은 모델
+target model 관계 필드를 가진 모델
+
+이를 표현하는데엔 1:N으론 한계가 있음. 그래서 관계테이블을 만들어주거나
+ManyToMany필드를 만들어줘야함.
+장고는 ManyToMany필드를 통해 자동으로 중계 테이블을 생성함.
+
+
+2. ManyToManyField
+  patient1.doctors.add(doctor1) ==> 환자1이 의사1에게 예약
+  doctor1.patient_set.all() ==> 의사1이 자신에게 예약한 환자들 확인
+  patient1.doctors.all() ==> 환자1이 자신이 예약한 의사목록 확인
+  doctor1.patient_set.add(patient2) ==> 의사1이 환자2를 예약
+
+  doctor1.patient_set.remove(patient1) ==> 의사1이 환자1 예약 취소
+  patient2.doctors.remove(doctor1) ==> 환자2가 예약 취소
+
+related_name: target model이 target model 참조할 때 사용할 manager name
+설정시 _set 매니저는 사용불가  
+
+through: 중계 테이블 직접 작성하는 경우. 다대다 관계와 연결할 때.
+
+symmetrical: 기본값은 True이고 대칭을 이룸. 팔로우하면 자동으로 맞팔되는 그런거.
+대칭을 원하지 않으면 False설정.
+
+#####
+Related Manager 
+N:1이나 M:N관계에서 사용가능한 문맥.
+모델 생성 시 objects 썼던 것 처럼 Related Manager 통해 쿼리셋 api사용가능.
+같은 이름의 메서드여도 관계에 따라 다르게 동작.
+add, remove... 등
+
