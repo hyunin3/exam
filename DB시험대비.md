@@ -393,7 +393,7 @@ article = Article.objects.get(pk=1)
 article.delete()
 
 ######
- Improve Query 에서 Lazy Loading / Eager Loading 
+Improve Query 에서 Lazy Loading / Eager Loading 
 
 장고는 기본적으로 Lazy Loading 전략 사용. ORM을 작성하면 DB에 쿼리하는 것이 아니라
 미루다가 실제로 데이터를 사용할 때 쿼리를 날림.
