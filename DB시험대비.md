@@ -374,10 +374,10 @@ filter() 지정된 조회 매개 변수와 일치하는 객체를 포함하는 �
 조회된 객체가 없거나 1개여도 쿼리셋 반환
 Article.objects.filter(content='django!)
 
-Field lookups 특정 레코드에 대한 조건을 설정하는 방법 
+Field lookups 특정 레코드에 대한 조건을 설정하는 방법. 필터를 더 구체적으로  
 메서드 filter(), exclude(), get()에 대한 키워드 인자로 지정됨.
-Article.objects.filter(content__contains='dj')
-content 컬럼에 'dj'가 포함된 모든 데이터 조회
+Article.objects.filter(content__contains='dj')  (필드명__gte=20) 필드명 언더바 2개 이퀄
+content 컬럼에 'dj'가 포함된 모든 데이터 조회       20보다 크거나 같다
 
 UPDATE
 
@@ -391,3 +391,16 @@ DELETE
 조회 후 삭제
 article = Article.objects.get(pk=1)
 article.delete()
+
+######
+ Improve Query 에서 Lazy Loading / Eager Loading 
+
+장고는 기본적으로 Lazy Loading 전략 사용. ORM을 작성하면 DB에 쿼리하는 것이 아니라
+미루다가 실제로 데이터를 사용할 때 쿼리를 날림.
+ORM 함수를 호출할 때가 아니라 print등 쿼리셋이 실제로 평가될 때 DB에 콜을 날려 데이터를 조회
+모든 경우에 호출을 하면 효율이 낮아서 성능개선을 위해 이렇게 함.
+
+Eager Loading은 지금 사용하지 않더라도 가져오는 것으로 보통 여러 테이블의 데이터를 한번에
+가져올 때 사용 
+
+ ######
