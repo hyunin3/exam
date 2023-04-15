@@ -145,16 +145,14 @@ DELETE FROM classmates WHERE name LIKE '%영%';
 FK를 사용. 
 (ex) 기존 테이블에서 운동은 FK로 하고 다른 테이블에 운동 명과 금액 분리시킴.
 
-
 3. 제3 정규형
 다른 속성에 의존하는 속성은 따로 분리할 것.
 (ex) 운동 명과 나이 분리 
 
 #####
 JOIN 테이블 합치기. 
+
 CROSS JOIN 그냥 다 합치는거. 모든 조합 출력
-
-
 
 INNER JOIN 두 테이블에서 일치하는 데이터만 결과 출력
 
