@@ -164,7 +164,7 @@ ON userid=users.rowid;
 
 
 LEFT JOIN 왼쪽 테이블의 데이터를 기준으로 오른쪽 데이터 결합. 없으면 NULL
-RTGHT JOIN
+RIGHT JOIN
 FULL OUTER JOIN
 
 ######
