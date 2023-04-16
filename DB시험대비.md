@@ -247,7 +247,7 @@ Django에서 User모델을 참조하는 방법
 CREATE 
 
 외래키 데이터 누락(NOT NULL...에러)
-artile = form.save(commit=False) 작성해줘야 함  --> articles/views.py
+article = form.save(commit=False) 작성해줘야 함  --> articles/views.py
 
 DELETE 
 
@@ -279,7 +279,7 @@ if request.user.is_authenticated:
 M:N관계
 병원에서 의사와 환자의 관계
 target model 관계 필드를 가지지 않은 모델
-target model 관계 필드를 가진 모델
+source model 관계 필드를 가진 모델
 
 이를 표현하는데엔 1:N으론 한계가 있음. 그래서 관계테이블을 만들어주거나
 ManyToMany필드를 만들어줘야함.
