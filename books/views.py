@@ -11,7 +11,7 @@ def book_list(request):
     if request.method == 'GET':
         books = get_list_or_404(Book)
         serializer = BookListSerializer(books, many=True)
-        return Response
+        return Response(serializer.data)
     
     elif request.method == 'POST':
         serializer = BookSerializer(data=request.data) 
@@ -27,7 +27,7 @@ def book_detail(request, book_pk):
     
     if request.methood == 'GET':
         serializer = BookListSerializer(book)
-        return Response(book.data)
+        return Response(serializer.data)
     
     elif request.method == 'DELETE':
         book.delete()
