@@ -21,21 +21,20 @@ def book_list(request):
 
 
 
-
-
-
-
-
-
-@api_view(['GET', 'POST'])
-def book_list(request): 
-    if request.method == 'GET':
-        books = get_list_or_404(Book)
-        serializer = BookListSerializer(books, many=True)
-        return Response
+@api_view(['GET', 'DELETE', 'PUT'])
+def book_detail(request, book_pk): 
+    book = get_object_or_404(Book, pk=book_pk)
     
-    elif request.method == 'POST':
-        serializer = BookSerializer(data=request.data)
+    if request.methood == 'GET':
+        serializer = BookListSerializer(book)
+        return Response(book.data)
+    
+    elif request.method == 'DELETE':
+        book.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        serializer = BookListSerializer(book, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data)
