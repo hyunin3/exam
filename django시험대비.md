@@ -1,4 +1,4 @@
-<장고 디버깅 시험대비>
+# <장고 디버깅 시험대비>
 자주 나오는 오류별로 대략 어떻게 고치는지.
 보통 뭘 틀리게 바꿔서 문제 내는지. 예시문제들 보니까 경로를 꼬고 
 여러줄 지우고 통째로 다시 만들어봐라 이런건 잘 없음.
@@ -10,7 +10,7 @@ article.pk있는지 없는지, CSRF는 있는지
 
 html에서 url 받을때 index말고는 article.pk 필요함
 
-<실습문제>
+# <실습문제>
 1. render 뒤에 'articles/index.html'
 
 2. return이 없음. 문제에선 create누르면 인덱스로 간다고 했지만
@@ -21,12 +21,12 @@ detail -> index
 
 4. {{ article.title }}, {{ article.content }}로 수정 (s빠짐)
 
-<실습문제2>
+# <실습문제2>
 1. request.FILES추가 article.pk 추가
 2. ArticleForm()에 instance=article 추가
 3. CSRF추가
 
-<예시문제>
+# <예시문제>
 1. context 를 탭으로 한 칸 앞으로 당겨야 return 받을 수 있음
 
 서술형 예상
